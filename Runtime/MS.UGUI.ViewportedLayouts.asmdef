@@ -1,0 +1,15 @@
+{
+    "name": "MS.UGUI.ViewportedLayouts",
+    "references": [
+        "MS.Log4Unity",
+        "MS.CommonUtils.Pool"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}
