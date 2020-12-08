@@ -11,6 +11,18 @@ namespace MS.UGUI.ViewportedLayouts{
         DownToUp,
     }
 
+    public enum CrossAxisDirection{
+        Default,
+        Reverse,
+    }
+
+    public enum AlignItems{
+        FlexStart,
+        FlexEnd,
+        Center,
+    }
+
+
     public delegate void ItemViewUpdateEvent(int index);
 
 

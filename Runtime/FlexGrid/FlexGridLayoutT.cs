@@ -50,7 +50,7 @@ namespace MS.UGUI.ViewportedLayouts{
             gridLayout.itemSize = _setting.itemSize;
             gridLayout.interval = _setting.interval;
             gridLayout.alignItemsInMainAxis = _setting.alignItemsInMainAxis;
-            gridLayout.alignItemsInCrossAxis = _setting.alignItemsInCrossAxis;    
+            gridLayout.crossAxisDirection = _setting.crossAxisDirection;    
             if(gridLayout.isFlexHorizontal){
                 float flexMaxSize = - _setting.padding.horizontal;
                 switch(_setting.flexSizeType){

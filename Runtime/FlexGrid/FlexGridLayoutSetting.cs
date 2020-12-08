@@ -10,10 +10,13 @@ namespace MS.UGUI.ViewportedLayouts{
         private AxisDirection _flexDirection;
 
         [SerializeField]
-        private AlignItemsMainAxis _alignItemsInMainAxis = AlignItemsMainAxis.FlexStart;
+        private CrossAxisDirection _crossAxisDirection;
 
         [SerializeField]
-        private AlignItemsCrossAxis _alignItemsInCrossAxis = AlignItemsCrossAxis.FlexStart;
+        private AlignItems _alignItemsInMainAxis = AlignItems.FlexStart;
+
+        // [SerializeField]
+        // private AlignItemsCrossAxis _alignItemsInCrossAxis = AlignItemsCrossAxis.FlexStart;
 
         [SerializeField]
         private Vector2 _itemSize = new Vector2(100,100);
@@ -36,15 +39,21 @@ namespace MS.UGUI.ViewportedLayouts{
             }
         }
 
-        public AlignItemsMainAxis alignItemsInMainAxis{
+        public AlignItems alignItemsInMainAxis{
             get{
                 return _alignItemsInMainAxis;
             }
         }
 
-        public AlignItemsCrossAxis alignItemsInCrossAxis{
+        // public AlignItemsCrossAxis alignItemsInCrossAxis{
+        //     get{
+        //         return _alignItemsInCrossAxis;
+        //     }
+        // }
+
+        public CrossAxisDirection crossAxisDirection{
             get{
-                return _alignItemsInCrossAxis;
+                return _crossAxisDirection;
             }
         }
 

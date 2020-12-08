@@ -5,16 +5,6 @@ using MS.Log4Unity;
 
 namespace MS.UGUI.ViewportedLayouts{
 
-    public enum AlignItemsMainAxis{
-        FlexStart,
-        FlexEnd,
-        Center,
-    }
-
-    public enum AlignItemsCrossAxis{
-        FlexStart,
-        FlexEnd,       
-    }
 
     /// <summary>
     /// 计算一个空间区域内的格子布局。默认坐标原点(0,0)在左下角
@@ -32,9 +22,11 @@ namespace MS.UGUI.ViewportedLayouts{
 
         private AxisDirection _flexDirection = AxisDirection.LeftToRight;
 
-        private AlignItemsMainAxis _alignItemsInMainAxis = AlignItemsMainAxis.FlexStart;
+        private AlignItems _alignItemsInMainAxis = AlignItems.FlexStart;
 
-        private AlignItemsCrossAxis _alignItemsInCrossAxis = AlignItemsCrossAxis.FlexStart;
+        // private AlignItemsCrossAxis _alignItemsInCrossAxis = AlignItemsCrossAxis.FlexStart;
+
+        private CrossAxisDirection _crossAxisDirection = CrossAxisDirection.Default;
 
         private Vector2 _interval = new Vector2(0,0);
 
@@ -69,15 +61,16 @@ namespace MS.UGUI.ViewportedLayouts{
             }
         }
 
-        public AlignItemsCrossAxis alignItemsInCrossAxis{
-            get{
-                return _alignItemsInCrossAxis;
-            }set{
-                _alignItemsInCrossAxis = value;
-            }
-        }
+        // public AlignItemsCrossAxis alignItemsInCrossAxis{
+        //     get{
+        //         return _alignItemsInCrossAxis;
+        //     }set{
+        //         _alignItemsInCrossAxis = value;
+        //     }
+        // }
 
-        public AlignItemsMainAxis alignItemsInMainAxis{
+
+        public AlignItems alignItemsInMainAxis{
             get{
                 return _alignItemsInMainAxis;
             }set{
@@ -91,6 +84,14 @@ namespace MS.UGUI.ViewportedLayouts{
             }set{
                 _flexDirection = value;
                 SetItemCountInMainAxisDirty();
+            }
+        }
+
+        public CrossAxisDirection crossAxisDirection{
+            get{
+                return _crossAxisDirection;
+            }set{
+                _crossAxisDirection = value;
             }
         }
 
@@ -217,11 +218,11 @@ namespace MS.UGUI.ViewportedLayouts{
                     break;
                 }
                 var isFlexHorizontal = this.isFlexHorizontal;
-                switch(alignItemsInCrossAxis){
-                    case AlignItemsCrossAxis.FlexStart:
+                switch(crossAxisDirection){
+                    case CrossAxisDirection.Default:
                     result.y = 1;
                     break;
-                    case AlignItemsCrossAxis.FlexEnd:
+                    case CrossAxisDirection.Reverse:
                     result.y = -1;
                     break;
                 }
@@ -230,7 +231,7 @@ namespace MS.UGUI.ViewportedLayouts{
         }
 
         public Rect GetItemRect(int itemIndex){
-            var position = CalculateItemPosition(itemIndex);
+            var position = CalculateItemCenterPosition(itemIndex);
             return new Rect(position - itemSize / 2,itemSize);
         }
  
@@ -241,13 +242,13 @@ namespace MS.UGUI.ViewportedLayouts{
             var leftSpaceInMainAxis = flexMaxSize  - (itemCountInMainAxis * itemSizeInMainAxis) - (itemCountInMainAxis - 1) * intervalSizeInMainAxis;
             var result = 0f;
             switch(_alignItemsInMainAxis){
-                case AlignItemsMainAxis.FlexStart:
+                case AlignItems.FlexStart:
                 result = 0;
                 break;
-                case AlignItemsMainAxis.FlexEnd:
+                case AlignItems.FlexEnd:
                 result = leftSpaceInMainAxis;
                 break;
-                case AlignItemsMainAxis.Center:
+                case AlignItems.Center:
                 result = leftSpaceInMainAxis / 2;
                 break;
             }
@@ -262,10 +263,10 @@ namespace MS.UGUI.ViewportedLayouts{
         /// 以左下为原点，计算出Items在CrossAxis的启始偏移
         /// </summary>
         private float CalculateItemStartPositionInCrossAxis(){
-            switch(alignItemsInCrossAxis){
-                case AlignItemsCrossAxis.FlexStart:
+            switch(crossAxisDirection){
+                case CrossAxisDirection.Default:
                 return 0;
-                case AlignItemsCrossAxis.FlexEnd:
+                case CrossAxisDirection.Reverse:
                 return this.CalculateContentSizeInCrossAxis();
             }
             return 0;
@@ -274,16 +275,16 @@ namespace MS.UGUI.ViewportedLayouts{
         /// 以左下为原点，计算出Items在CrossAxis的结束偏移
         /// </summary>
         private float CalculateItemEndPositionInCrossAxis(){
-            switch(alignItemsInCrossAxis){
-                case AlignItemsCrossAxis.FlexStart:
+            switch(crossAxisDirection){
+                case CrossAxisDirection.Default:
                 return this.CalculateContentSizeInCrossAxis();
-                case AlignItemsCrossAxis.FlexEnd:
+                case CrossAxisDirection.Reverse:
                 return 0;
             }
             return 0;            
         }
 
-        public Vector2 CalculateItemPosition(int itemIndex){
+        private Vector2 CalculateItemCenterPosition(int itemIndex){
             var itemCountInMainAxis = this.CalcualteItemCountInMainAxis();
             var indexInCrossAxis = Mathf.FloorToInt(itemIndex / itemCountInMainAxis);
             var indexInMainAxis = itemIndex % itemCountInMainAxis;
@@ -321,23 +322,23 @@ namespace MS.UGUI.ViewportedLayouts{
             }
 
             if(isFlexHorizontal){
-                switch(alignItemsInCrossAxis){
-                    case AlignItemsCrossAxis.FlexStart:
+                switch(crossAxisDirection){
+                    case CrossAxisDirection.Default:
                     info.startInCrossAxis = viewport.yMin;
                     info.endInCrossAxis = viewport.yMax;
                     break;
-                    case AlignItemsCrossAxis.FlexEnd:
+                    case CrossAxisDirection.Reverse:
                     info.startInCrossAxis = viewport.yMax;
                     info.endInCrossAxis = viewport.yMin;
                     break;
                 }     
             }else{
-                switch(alignItemsInCrossAxis){
-                    case AlignItemsCrossAxis.FlexStart:
+                switch(crossAxisDirection){
+                    case CrossAxisDirection.Default:
                     info.startInCrossAxis = viewport.xMin;
                     info.endInCrossAxis = viewport.xMax;
                     break;
-                    case AlignItemsCrossAxis.FlexEnd:
+                    case CrossAxisDirection.Reverse:
                     info.startInCrossAxis = viewport.xMax;
                     info.endInCrossAxis = viewport.xMin;
                     break;
