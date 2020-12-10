@@ -39,7 +39,7 @@ openupm install com.ms.ugui.viewportedlayouts
 
 因此，至多只需要创建`同时显示在可见区域的元素项数量`
 
-# 支持的布局类型
+# Supported Layouts
 
 ## 1. SimpleLinearLayout
 
@@ -48,4 +48,17 @@ openupm install com.ms.ugui.viewportedlayouts
 ## 2. SimpleFlexGridLayout
 
 可伸缩式的网格布局
+
+
+
+
+Check Samples~ for more detail usage.
+
+# Samples
+
+for Unity 2019+ , samples can be imported from Package Manager UI. Otherwise, drag `Samples~/Layouts` into your project.
+
+
+
+
 
