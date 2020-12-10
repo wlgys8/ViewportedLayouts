@@ -9,9 +9,9 @@
 	},
 	"samples":[
 		{
-			"displayName":"SimpleLinearLayout",
-			"description": "SimpleLinearLayout",
-			"path": "Samples~/SimpleLinearLayout"
+			"displayName":"Layouts",
+			"description": "Layouts",
+			"path": "Samples~/Layouts"
 		}
 	]
 }
