@@ -1,14 +1,18 @@
 # ViewportedLayouts
 
-提供一些组件，解决在有限大小的区域内，显示和布局大量的UI对象。
 
-# Install
+提供一些组件，解决在有限大小的可视区域内，显示和布局大量的UI对象。 对象仅在进入可见区域的时候被创建（或从池中获取），以及不可见时放回池中。
 
-## Dependencies
+Layout large items in a limited rect viewport. Items will only be created(or get from pool) when it is actually visible in viewport, and put back to the pool when it is out of the viewport.
+
+
+
+# Dependencies
 
 - [UniPool](https://github.com/wlgys8/UniPool)
 - [Log4Unity](https://github.com/wlgys8/Log4Unity)
 
+# Install
 
 install by Packages/manifest.json (you must add dependencies to project by yourself in this way)
 ```json
