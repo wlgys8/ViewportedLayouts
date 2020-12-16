@@ -11,7 +11,19 @@ namespace MS.UGUI.ViewportedLayouts{
 
         protected override RectTransform OnInstantiateItemView()
         {
-            return Object.Instantiate<RectTransform>(_PrefabOfItem);
+            if(_PrefabOfItem == null){
+                return new GameObject("LayoutItem").AddComponent<RectTransform>();
+            }else{
+                return Object.Instantiate<RectTransform>(_PrefabOfItem);
+            }
+        }
+
+        public RectTransform PrefabOfItem{
+            get{
+                return _PrefabOfItem;
+            }set{
+                _PrefabOfItem = value;
+            }
         }
 
     }
