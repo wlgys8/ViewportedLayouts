@@ -1,11 +1,11 @@
 {
 	"name":"com.ms.ugui.viewportedlayouts",
 	"displayName":"ViewportedLayouts",
-	"version":"0.0.1",
+	"version":"0.1.0",
 	"description":"ViewportedLayouts",
 	"dependencies": {
 		"com.ms.pool":"0.2.0",
-		"com.ms.log4unity":"0.1.0"
+		"com.ms.log4unity":"0.3.0"
 	},
 	"samples":[
 		{
