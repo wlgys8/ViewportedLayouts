@@ -9,18 +9,10 @@ namespace MS.UGUI.ViewportedLayouts{
         [SerializeField]
         private RectTransform _PrefabOfItem;
 
-        public event ItemViewUpdateEvent itemViewUpdateEvent;
-
         protected override RectTransform OnInstantiateItemView()
         {
             return Object.Instantiate<RectTransform>(_PrefabOfItem);
         }
 
-        protected override void OnItemUpdate(int index)
-        {
-            if(itemViewUpdateEvent != null){
-                itemViewUpdateEvent(index);
-            }
-        }
     }
 }

@@ -8,9 +8,6 @@ namespace MS.UGUI.ViewportedLayouts{
         [SerializeField]
         private LinearLayoutSetting _setting;
 
-        [SerializeField]
-        private int _itemCount = 1;
-
         private float _lastContentSizeInCrossAxis = 0;
 
         public float contentSizeInCrossAxis{
@@ -23,6 +20,7 @@ namespace MS.UGUI.ViewportedLayouts{
                 }
             }
         }
+       
 
         protected override void OnLayoutCalculatorConfigurate(ILayoutCalculator calculator)
         {
@@ -45,7 +43,7 @@ namespace MS.UGUI.ViewportedLayouts{
             }
             linearLayout.itemSize = itemSize;
             linearLayout.interval = _setting.interval;
-            linearLayout.itemCount = _itemCount;
+            linearLayout.itemCount = this.itemCount;
         }
 
         protected override ILayoutCalculator OnLayoutCalculatorCreate()

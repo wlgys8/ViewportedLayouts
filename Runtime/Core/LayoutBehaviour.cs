@@ -93,6 +93,9 @@ namespace MS.UGUI.ViewportedLayouts{
         [SerializeField]
         private ViewportUpdateMode _viewportUpdateMode = ViewportUpdateMode.EveryFrame;
 
+        [SerializeField]
+        private int _itemCount = 1;
+
         private Rect _viewportRect;
         private ILayoutCalculator _layoutCalculator;
 
@@ -102,6 +105,8 @@ namespace MS.UGUI.ViewportedLayouts{
         private bool _layoutDirty = false;
         private bool _viewportDirty = false;
         private bool _itemsDirty = false;
+        public event ItemViewUpdateEvent itemViewUpdateEvent;
+
 
         protected override void Awake(){
             base.Awake();
@@ -113,6 +118,14 @@ namespace MS.UGUI.ViewportedLayouts{
             this.SetLayoutConfigDirty();
         }
 #endif
+
+        public void AddItemViewUpdate(ItemViewUpdateEvent callback){
+            this.itemViewUpdateEvent += callback;
+        }
+
+        public void RemoveItemViewUpdate(ItemViewUpdateEvent callback){
+            this.itemViewUpdateEvent -= callback;
+        }
 
         protected void SetLayoutConfigDirty(){
             _layoutConfigDirty = true;
@@ -289,7 +302,23 @@ namespace MS.UGUI.ViewportedLayouts{
 
         protected abstract void OnItemVisibleChanged(int index,bool visible);
 
-        protected abstract void OnItemUpdate(int index);
+        protected virtual void OnItemUpdate(int index){
+            if(this.itemViewUpdateEvent != null){
+                this.itemViewUpdateEvent(index);
+            }
+        }
+
+        public int itemCount{
+            get{
+                return _itemCount;
+            }set{
+                if(_itemCount == value){
+                    return;
+                }
+                _itemCount = value;
+                SetLayoutConfigDirty();
+            }
+        }
 
         protected abstract void OnItemLayout(int index);
 

@@ -10,8 +10,6 @@ namespace MS.UGUI.ViewportedLayouts{
         [SerializeField]
         private FlexGridLayoutSetting _setting;
 
-        [SerializeField]
-        private int _itemCount = 1;
         private float _lastContentSizeInMainAxis = - 1;
 
         protected override ILayoutCalculator OnLayoutCalculatorCreate()
@@ -74,21 +72,8 @@ namespace MS.UGUI.ViewportedLayouts{
                 }
                 gridLayout.flexMaxSize = flexMaxSize;
             }
-            gridLayout.itemCount = _itemCount;
+            gridLayout.itemCount = this.itemCount;
         }
-
-        public int itemCount{
-            get{
-                return _itemCount;
-            }set{
-                if(_itemCount == value){
-                    return;
-                }
-                _itemCount = value;
-                SetLayoutConfigDirty();
-            }
-        }
-
 
         protected override void Update()
         {
