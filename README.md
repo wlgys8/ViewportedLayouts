@@ -10,7 +10,6 @@ Layout large items in a limited rect viewport. Items will only be created(or get
 # Dependencies
 
 - [UniPool](https://github.com/wlgys8/UniPool)
-- [Log4Unity](https://github.com/wlgys8/Log4Unity)
 
 # Install
 

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MS.Log4Unity;
 
 namespace MS.UGUI.ViewportedLayouts{
 
@@ -11,7 +10,11 @@ namespace MS.UGUI.ViewportedLayouts{
     /// </summary>
     public class FlexGridLayoutCalculator:ILayoutCalculator{
 
-        private static ConditionalLogger logger = LogFactory.GetConditionalLogger<FlexGridLayoutCalculator>();
+
+        [System.Diagnostics.Conditional("MUV_INTERNAL_DEBUG")]
+        private static void InternalDebug(string msg){
+            Debug.Log(msg);
+        }
  
         private Vector2 _itemSize = new Vector2(100,100);
 
@@ -363,8 +366,8 @@ namespace MS.UGUI.ViewportedLayouts{
             var viewportStartInCrossAxis = viewportInFlexSpace.startInCrossAxis;
             var viewportEndInCrossAxis = viewportInFlexSpace.endInCrossAxis;
 
-            logger.InternalDebug($"[GetOverlapsInViewport] axisDir = {axisDirection}, count = {itemCount}, originalViewport = {viewport}");
-            logger.InternalDebug($"[GetOverlapsInViewport] viewportStartInMainAxis:{viewportStartInMainAxis},viewportEndInMainAxis:{viewportEndInMainAxis},startInCrossAxis:{viewportStartInCrossAxis},endInCrossAxis{viewportEndInCrossAxis}");
+            InternalDebug($"[GetOverlapsInViewport] axisDir = {axisDirection}, count = {itemCount}, originalViewport = {viewport}");
+            InternalDebug($"[GetOverlapsInViewport] viewportStartInMainAxis:{viewportStartInMainAxis},viewportEndInMainAxis:{viewportEndInMainAxis},startInCrossAxis:{viewportStartInCrossAxis},endInCrossAxis{viewportEndInCrossAxis}");
             var itemStartPosInMainAxis = this.CalculateItemStartPositionInMainAxis();
             var itemCountInMainAxis = this.CalcualteItemCountInMainAxis();
             var itemEndPosInMainAxis = itemStartPosInMainAxis + axisDirection.x * (this.itemSizeInMainAxis * itemCountInMainAxis + this.intervalSizeInMainAxis * (itemCountInMainAxis - 1));
@@ -372,14 +375,14 @@ namespace MS.UGUI.ViewportedLayouts{
             var itemStartPosInCrossAxis = this.CalculateItemStartPositionInCrossAxis();
             var itemEndPosInCrossAxis = this.CalculateItemEndPositionInCrossAxis();
 
-            logger.InternalDebug($"itemStartPosInMainAxis:{itemStartPosInMainAxis},itemEndPosInMainAxis:{itemEndPosInMainAxis}," + 
+            InternalDebug($"itemStartPosInMainAxis:{itemStartPosInMainAxis},itemEndPosInMainAxis:{itemEndPosInMainAxis}," + 
             $"itemStartPosInCrossAxis:{itemStartPosInCrossAxis},itemEndPosInCrossAxis:{itemEndPosInCrossAxis}");
 
             if( (viewportStartInMainAxis - itemEndPosInMainAxis) * axisDirection.x >= 0 || (viewportEndInMainAxis - itemStartPosInMainAxis ) * axisDirection.x <= 0 ){
                 return;
             }
 
-            logger.InternalDebug($"itemCountInMainAxis:{itemCountInMainAxis}");
+            InternalDebug($"itemCountInMainAxis:{itemCountInMainAxis}");
 
             var visibleItemIndexMinInMainAxis =  Mathf.FloorToInt(axisDirection.x *((viewportStartInMainAxis - itemStartPosInMainAxis) 
             + this.intervalSizeInMainAxis) / (this.itemSizeInMainAxis + this.intervalSizeInMainAxis));
@@ -395,7 +398,7 @@ namespace MS.UGUI.ViewportedLayouts{
             var visibleItemIndexMaxInCrossAxis =  Mathf.FloorToInt(axisDirection.y *(viewportEndInCrossAxis - itemStartPosInCrossAxis)
              / (this.itemSizeInCrossAxis + this.intervalSizeInCrossAxis));;
 
-            logger.InternalDebug($@"visibleItemIndexRangeInMainAxis = [{visibleItemIndexMinInMainAxis},{visibleItemIndexMaxInMainAxis}],
+            InternalDebug($@"visibleItemIndexRangeInMainAxis = [{visibleItemIndexMinInMainAxis},{visibleItemIndexMaxInMainAxis}],
             visibleItemIndexRangeInCrossAxis = [ {visibleItemIndexMinInCrossAxis},{visibleItemIndexMaxInCrossAxis}]");
             
             for(var j = visibleItemIndexMinInCrossAxis; j <= visibleItemIndexMaxInCrossAxis;j ++){

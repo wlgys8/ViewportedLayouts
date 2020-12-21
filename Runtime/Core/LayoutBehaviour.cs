@@ -1,13 +1,17 @@
-﻿// #define LOG4UNITY_INTERNAL_DEBUG
+﻿// #define MUV_INTERNAL_DEBUG
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 namespace MS.UGUI.ViewportedLayouts{
-    using Log4Unity;
     using CommonUtils;
 
     public abstract class LayoutBehaviourT<TView>:LayoutBehaviour where TView:Component {
-        private static readonly ConditionalLogger logger = LogFactory.GetConditionalLogger<LayoutBehaviourT<TView>>();
+        // private static readonly ConditionalLogger logger = LogFactory.GetConditionalLogger<LayoutBehaviourT<TView>>();
+        
+        [System.Diagnostics.Conditional("MUV_INTERNAL_DEBUG")]
+        private static void InternalDebug(string msg){
+            Debug.Log(msg);
+        }
 
         private IObjectPool<TView> _viewPool = new ObjectPool<TView>();
         private Dictionary<int,TView> _visibleItemViews = new Dictionary<int, TView>();
@@ -41,7 +45,7 @@ namespace MS.UGUI.ViewportedLayouts{
 
         protected override void OnItemVisibleChanged(int index, bool visible)
         {
-            logger.InternalDebug($"item visible changed,index = {index},visible = {visible}");
+            InternalDebug($"item visible changed,index = {index},visible = {visible}");
             if(visible){
                 var itemView = RequestItemView();
                 var itemTrans = itemView.transform as RectTransform;
@@ -82,7 +86,6 @@ namespace MS.UGUI.ViewportedLayouts{
 
     public abstract class LayoutBehaviour : UIBehaviour
     {
-        private static readonly ConditionalLogger logger = LogFactory.GetConditionalLogger<LayoutBehaviour>();
     
         [SerializeField]
         private RectTransform _viewport;
@@ -217,7 +220,7 @@ namespace MS.UGUI.ViewportedLayouts{
             var turnToVisibleItems = SetPool<int>.Request();
             try{
                 if(_viewportDirty){
-                    logger.InternalDebug("calculate item views visible");
+                    InternalDebug("calculate item views visible");
                     if(_visibleItems == null){
                         _visibleItems = SetPool<int>.Request(); 
                     }
@@ -255,7 +258,7 @@ namespace MS.UGUI.ViewportedLayouts{
                 }
 
                 if(_layoutDirty){
-                    logger.InternalDebug("calculate item views layout");
+                    InternalDebug("calculate item views layout");
                     foreach(var index in _visibleItems){
                         OnItemLayout(index);
                     }
@@ -294,7 +297,7 @@ namespace MS.UGUI.ViewportedLayouts{
         }
 
         private void ConfigurateLayoutCalculator(){
-            logger.InternalDebug("ConfigurateLayoutCalculator");
+            InternalDebug("ConfigurateLayoutCalculator");
             this.OnLayoutCalculatorConfigurate(_layoutCalculator);
             this.SetLayoutDirty();
             this.UpdateContentSize();
@@ -328,5 +331,10 @@ namespace MS.UGUI.ViewportedLayouts{
         protected abstract void OnLayoutCalculatorConfigurate(ILayoutCalculator calculator);
 
      
+            
+        [System.Diagnostics.Conditional("MUV_INTERNAL_DEBUG")]
+        private static void InternalDebug(string msg){
+            Debug.Log(msg);
+        }
     }
 }

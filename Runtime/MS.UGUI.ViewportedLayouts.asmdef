@@ -1,7 +1,6 @@
 {
     "name": "MS.UGUI.ViewportedLayouts",
     "references": [
-        "MS.Log4Unity",
         "MS.CommonUtils.Pool"
     ],
     "optionalUnityReferences": [],
