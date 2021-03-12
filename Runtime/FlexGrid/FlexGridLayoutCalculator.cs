@@ -162,7 +162,7 @@ namespace MS.UGUI.ViewportedLayouts{
         /// 计算主轴方向的Item数量
         /// </summary>
         /// <returns></returns>
-        public int CalcualteItemCountInMainAxis(){
+        public int CalculateItemCountInMainAxis(){
             if( _itemCountInMainAxis == null){
                 var itemSizeInMainAxis =  this.itemSizeInMainAxis;
                 var intervalSizeInMainAxis = this.intervalSizeInMainAxis;
@@ -181,7 +181,7 @@ namespace MS.UGUI.ViewportedLayouts{
         /// </summary>
         public float CalculateContentSizeInCrossAxis(){
             if(_contentSizeInCrossAxis == null){
-                var itemCountInMainAxis = this.CalcualteItemCountInMainAxis();
+                var itemCountInMainAxis = this.CalculateItemCountInMainAxis();
                 var lineCount = Mathf.CeilToInt( this._itemCount *1f / itemCountInMainAxis );
                 var contentSizeInCrossAxis = lineCount * itemSizeInCrossAxis + (lineCount - 1) * intervalSizeInCrossAxis;
                 _contentSizeInCrossAxis = contentSizeInCrossAxis;
@@ -239,7 +239,7 @@ namespace MS.UGUI.ViewportedLayouts{
         }
  
         private float CalculateItemStartPositionInMainAxis(){
-            var maxItemCountInMainAxis = this.CalcualteItemCountInMainAxis();
+            var maxItemCountInMainAxis = this.CalculateItemCountInMainAxis();
             var itemCountInMainAxis = Mathf.Min(maxItemCountInMainAxis,this.itemCount);
             ///主坐标排完Item后留下的空位
             var leftSpaceInMainAxis = flexMaxSize  - (itemCountInMainAxis * itemSizeInMainAxis) - (itemCountInMainAxis - 1) * intervalSizeInMainAxis;
@@ -288,7 +288,7 @@ namespace MS.UGUI.ViewportedLayouts{
         }
 
         private Vector2 CalculateItemCenterPosition(int itemIndex){
-            var itemCountInMainAxis = this.CalcualteItemCountInMainAxis();
+            var itemCountInMainAxis = this.CalculateItemCountInMainAxis();
             var indexInCrossAxis = Mathf.FloorToInt(itemIndex / itemCountInMainAxis);
             var indexInMainAxis = itemIndex % itemCountInMainAxis;
             var itemSizeInCrossAxis = this.itemSizeInCrossAxis;
@@ -369,7 +369,7 @@ namespace MS.UGUI.ViewportedLayouts{
             InternalDebug($"[GetOverlapsInViewport] axisDir = {axisDirection}, count = {itemCount}, originalViewport = {viewport}");
             InternalDebug($"[GetOverlapsInViewport] viewportStartInMainAxis:{viewportStartInMainAxis},viewportEndInMainAxis:{viewportEndInMainAxis},startInCrossAxis:{viewportStartInCrossAxis},endInCrossAxis{viewportEndInCrossAxis}");
             var itemStartPosInMainAxis = this.CalculateItemStartPositionInMainAxis();
-            var itemCountInMainAxis = this.CalcualteItemCountInMainAxis();
+            var itemCountInMainAxis = this.CalculateItemCountInMainAxis();
             var itemEndPosInMainAxis = itemStartPosInMainAxis + axisDirection.x * (this.itemSizeInMainAxis * itemCountInMainAxis + this.intervalSizeInMainAxis * (itemCountInMainAxis - 1));
 
             var itemStartPosInCrossAxis = this.CalculateItemStartPositionInCrossAxis();
